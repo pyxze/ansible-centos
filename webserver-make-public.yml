@@ -1,0 +1,10 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  vars:
+    user: root
+  tasks:
+  - name: ensure that port 80 is open
+    action: shell REJECT_RULE_NO=$(iptables -L INPUT --line-numbers | grep 'REJECT' | awk '{print $1}'); if ! (iptables-save | grep -q -- "-A INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT"); then iptables -I INPUT $REJECT_RULE_NO -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT; fi
+  - name: Save updated iptable rules
+    action: command /sbin/service iptables save
