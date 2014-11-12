@@ -6,8 +6,7 @@
     root_db_password: "{{ lookup('password', 'credentials/' + client + '/' + tier + '/' + role + '/mysqlpassword length=15') }}"
   tasks:
   - name: Grab remi repo -- for php 5.4 and mysql 5.5
-    action: command wget http://rpms.famillecollet.com/enterprise/remi-release-\
-6.rpm -P /tmp
+    action: command wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm -P /tmp
   - name: Install libselinux-python for ansible
     action: yum pkg=libselinux-python state=present
   - name: Install remi repos
@@ -39,8 +38,7 @@
   - name: Ensure MySQL will start on reboot
     action: command chkconfig mysqld on
   # The following tasks go through the steps of securing the initial mysql
-  # installation per https://dev.mysql.com/doc/refman/5.5/en/default-privileges\
-.html
+  # installation per https://dev.mysql.com/doc/refman/5.5/en/default-privileges.html
   # using the tasks from https://coderwall.com/p/yez9yw
   - name: update mysql root password for all root accounts
     mysql_user: name=root host={{ item }} password={{ root_db_password }}
